@@ -1,6 +1,6 @@
 # whatAreTheTwitterHaps
 
-Some hacky python to find out what's cool on twitter this week. `whatAreTheTwitterHaps(hashtag)` generates a text file listing tweets containing #`hashtag` and a non-picture link, sorted in decending order of number of retweets.
+Some hacky python to find out what's cool on twitter this week. `whatAreTheTwitterHaps(text)` pulls down a list of tweets containing `text`; some other helper functions are available to tidy up what gets pulled down.
 
 ## setup
 Uses the `python-twitter` wrapper for the twitter api:
