@@ -1,7 +1,6 @@
 import twitter
 import datetime
 import dateutil.parser
-import ast
 
 # Consumer keys and access tokens, used for OAuth
 consumer_key = 'kittens'
