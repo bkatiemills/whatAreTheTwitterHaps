@@ -1,12 +1,13 @@
 import twitter
 import datetime
 import dateutil.parser
+import webbrowser
 
 # Consumer keys and access tokens, used for OAuth
-consumer_key = 'kittens'
-consumer_secret = 'rainbows'
-access_token = 'unicorns'
-access_token_secret = 'sunshine'
+#consumer_key = 'kittens'
+#consumer_secret = 'rainbows'
+#access_token = 'unicorns'
+#access_token_secret = 'sunshine'
 
 api = twitter.Api(consumer_key,
                       consumer_secret,
@@ -69,7 +70,7 @@ def sortTweets(tweets, key):
     watch out! I'm a horrible person, and eval'ed this
     '''
     hackySort = 'sorted(tweets, key=lambda thisone: thisone.'+key+', reverse=True)'
-    sortedTweets = eval(hackySort)
+    sortedTweets = eval(hackySort) 
 
     return sortedTweets
 
@@ -85,7 +86,45 @@ def logTweets(tweets, prefix='tweets'):
         s = s.encode('ascii', 'ignore')
         f.write(s)
 
+def minRT(sortedTweets, RT=10):
+    '''
+    returns the tweets with at least RT number of retweets.
+    '''
+
+    j = 0
+    for i in range(len(sortedTweets)):
+        if sortedTweets[i].retweet_count >= RT:
+            j += 1
+        else:
+            return sortedTweets[0:j] 
+
+def openLinks(tweetsWithLinks):
+    '''
+    opens the links found in tweetsWithLinks
+    '''
+
+    browserOpen = False
+
+    for tweet in tweetsWithLinks:
+        for item in tweet.urls:
+            if browserOpen:
+                webbrowser.open_new_tab(item.url)
+            else:
+                webbrowser.open_new(item.url)
+            browserOpen = True
+
+
+
+
 tweets = whatAreTheTwitterHaps('#openscience')
 interestingT = linksOnly(tweets)
 sortedT = sortTweets(interestingT, 'retweet_count')
-logTweets(sortedT)
+topTweets = minRT(sortedT)
+openLinks(topTweets)
+logTweets(sortedT, prefix='openscience')
+
+
+#tweets = whatAreTheTwitterHaps('#DFD2015')
+#interestingT = linksOnly(tweets)
+#sortedT = sortTweets(interestingT, 'retweet_count')
+#logTweets(sortedT, prefix='DFD2015')
